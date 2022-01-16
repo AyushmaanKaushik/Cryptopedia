@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../server/getAPI.dart';
 import 'dart:convert';
 import '../utilities/model.dart';
-
+import 'loading_screen.dart';
 class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
@@ -64,13 +64,11 @@ class _HomePageState extends State<HomePage> {
                     child: Text(_coins[index].name, style: const TextStyle(fontSize: 20),),
                     onPressed: () async {
                       List chartData = await getInfo(_coins[index].id);
-                      getCoinInfo(_coins[index].id);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => InfoPage(
+                              builder: (context) => LoadingScreen(
                                     cryptoName: _coins[index].id,
-                                    chartData: chartData,
                                   )));
                     },
                   ),

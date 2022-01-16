@@ -5,8 +5,10 @@ import '../server/getAPI.dart';
 import '../utilities/model.dart';
 
 class InfoPage extends StatefulWidget {
-  const InfoPage({required this.cryptoName, required this.chartData});
+  const InfoPage(
+      {required this.info, required this.cryptoName, required this.chartData});
 
+  final coinDetails info;
   final String cryptoName;
   final List chartData;
 
@@ -37,7 +39,14 @@ class _InfoPageState extends State<InfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.cryptoName),
+        automaticallyImplyLeading: true,
+        title: Text(info.name),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: (){
+              Navigator.popUntil(context, ModalRoute.withName('/'));
+            },
+        ),
       ),
       body: ListView(
         children: [
@@ -79,16 +88,23 @@ class _InfoPageState extends State<InfoPage> {
                         ),
                         Text(
                           info.symbol,
-                          style: const TextStyle(fontSize: 20, color: Colors.grey),
+                          style:
+                              const TextStyle(fontSize: 20, color: Colors.grey),
                         ),
                       ],
                     ),
                   ],
                 ),
-                TextElement(title: 'Market Capital Rank: ',nextTitle: info.marketRank.toString(),),
-                TextElement(title: "Current Price: ", nextTitle: '\$'+info.price.toString()),
+                TextElement(
+                  title: 'Market Capital Rank: ',
+                  nextTitle: info.marketRank.toString(),
+                ),
+                TextElement(
+                    title: "Current Price: ",
+                    nextTitle: '\$' + info.price.toString()),
                 Container(
-                    padding: const EdgeInsets.all(20), child: Text(info.description)),
+                    padding: const EdgeInsets.all(20),
+                    child: Text(info.description)),
               ],
             ),
           ),
