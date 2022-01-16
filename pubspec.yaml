@@ -37,6 +37,7 @@ dependencies:
   syncfusion_flutter_charts: ^19.4.42
   http: ^0.13.4
   time_formatter: ^1.0.0+5
+  json_annotation: ^4.4.0
 
 dev_dependencies:
   flutter_test:

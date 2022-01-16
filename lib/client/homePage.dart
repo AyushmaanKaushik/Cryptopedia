@@ -1,6 +1,9 @@
 import 'package:crypto_watcher/client/infoPage.dart';
+import 'package:crypto_watcher/utilities/model.dart';
 import 'package:flutter/material.dart';
 import '../server/getAPI.dart';
+import 'dart:convert';
+import '../utilities/model.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,19 +11,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var coinList = [
-    'bitcoin',
-    'ethereum',
-    'binancecoin',
-    'tether',
-    'solana',
-    'usd-coin',
-    'cardano',
-    'ripple',
-    'terra-luna',
-    'polkadot',
-    'dogecoin'
-  ];
+  // var coinList = [
+  //   'bitcoin',
+  //   'ethereum',
+  //   'binancecoin',
+  //   'tether',
+  //   'solana',
+  //   'usd-coin',
+  //   'cardano',
+  //   'ripple',
+  //   'terra-luna',
+  //   'polkadot',
+  //   'dogecoin'
+  // ];
+
+  List<coin> _coins = <coin>[];
+
+  @override
+  void initState() {
+    super.initState();
+    getValues();
+  }
+
+  getValues() async {
+    _coins = await getCoinList();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +49,10 @@ class _HomePageState extends State<HomePage> {
         height: MediaQuery.of(context).size.height,
         // child: Center(child: menuList(coinList)),
         child: ListView.builder(
-            itemCount: coinList.length,
+            itemCount: _coins.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                margin: EdgeInsets.all(15),
+                margin: EdgeInsets.all(10),
                 width: 200,
                 height: 50,
                 decoration: BoxDecoration(
@@ -45,15 +61,15 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Center(
                   child: TextButton(
-                    child: Text(coinList[index]),
+                    child: Text(_coins[index].name, style: const TextStyle(fontSize: 20),),
                     onPressed: () async {
-                      List chartData = await getInfo(coinList[index]);
-                      getCoinList();
+                      List chartData = await getInfo(_coins[index].id);
+                      getCoinInfo(_coins[index].id);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => InfoPage(
-                                    cryptoName: coinList[index],
+                                    cryptoName: _coins[index].id,
                                     chartData: chartData,
                                   )));
                     },
