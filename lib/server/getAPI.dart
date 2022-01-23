@@ -24,6 +24,25 @@ Future<List<dynamic>> getInfo(String coinName) async {
   }
 }
 
+Future<List<ChartData>> getChartData(String coinName) async {
+  try {
+    String url =
+        "https://api.coingecko.com/api/v3/coins/$coinName/ohlc?vs_currency=usd&days=30";
+    var response = await http.get(Uri.parse(url));
+    var json = jsonDecode(response.body);
+    List<ChartData> data = [];
+    for (var record in json) {
+      var date = DateTime.fromMicrosecondsSinceEpoch(record[0] * 1000);
+      ChartData rec = ChartData(date, record[1],
+          record[2], record[3], record[4]);
+      data.add(rec);
+    }
+    return data;
+  } catch (e) {
+    throw (e.toString());
+  }
+}
+
 Future<List<coin>> getCoinList() async {
   try {
     var url =

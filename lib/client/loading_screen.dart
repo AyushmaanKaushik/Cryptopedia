@@ -21,6 +21,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void loadCoinInfo() async {
     coinDetails info = await getCoinInfo(widget.cryptoName);
     List chartData = await getInfo(widget.cryptoName);
+    List<ChartData> ohlcData = await getChartData(widget.cryptoName);
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -28,6 +29,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   info: info,
                   cryptoName: widget.cryptoName,
                   chartData: chartData,
+                  ohlcData: ohlcData,
                 )));
   }
 
@@ -35,7 +37,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: SpinKitPianoWave(color: Colors.white,size: 100,),
+        child: SpinKitPianoWave(
+          color: Colors.white,
+          size: 100,
+        ),
       ),
     );
   }

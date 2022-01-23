@@ -14,9 +14,9 @@ class coinDetails {
   late String name;
   late String symbol;
   // String algo, market rank, image;
-  late int marketRank;
+  late num marketRank;
   late String image;
-  late double price;
+  late num price;
   late String description;
 
   coinDetails(
@@ -34,4 +34,14 @@ class coinDetails {
     price = json["market_data"]["current_price"]["usd"];
     description = json['description']['en'];
   }
+}
+
+class ChartData {
+  ChartData(this.date, this.open, this.high, this.low, this.close);
+  final DateTime date;
+  final double open;
+  final double high;
+  final double low;
+  final double close;
+
 }
